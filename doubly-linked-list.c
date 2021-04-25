@@ -122,11 +122,20 @@ int main()
 
 
 int initialize(headNode** h) {
+	if(*h != NULL)
+		freeList(*h);
+
+	*h = (listNode*)malloc(sizeof(listNode));      //헤드노트에 대해 메모리 할당
+	(**h).first=NULL; //headnode 초기화 
 
 	return 1;
 }
 
 int freeList(headNode* h){
+	
+	listNode* n = h->first;
+	
+
 	return 0;
 }
 
@@ -160,7 +169,25 @@ void printList(headNode* h) {
  * list에 key에 대한 노드하나를 추가
  */
 int insertLast(headNode* h, int key) {
-
+	
+        listNode* n = (listNode*)malloc(sizeof(listNode));  //새로 삽입할 노드 동적 할당
+	
+	n->key = key;
+	n->rlink = NULL;
+	listNode* node = h->first;
+	
+	if(node == NULL) { // 리스트가 NULL이면 맨 앞에 node 삽입
+		
+		h->first = n;
+	}
+	else {
+		while(node->rlink != NULL) 
+		{ 
+			node = node->rlink;    // 리스트 끝까지 포인터 이동
+		}
+		node->rlink = n; // 맨 뒤에 삽입
+		n->llink = node; // llink 연결
+	}
 	return 0;
 }
 
