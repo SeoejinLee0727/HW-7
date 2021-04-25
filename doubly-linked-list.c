@@ -250,6 +250,22 @@ int deleteLast(headNode* h) {
  * list 처음에 key에 대한 노드하나를 추가
  */
 int insertFirst(headNode* h, int key) {
+	
+	
+	listNode* node = (listNode*)malloc(sizeof(listNode));
+	node->key = key;
+	node->llink = NULL;
+	listNode* n = h->first;
+	
+	if (h->first == NULL) { // 리스트가 공백상태면
+		h->first = node; // node를 head로 link
+		node->rlink = NULL;
+	}
+	else {
+		node->rlink = n; // node 의 rlink를 기존 head에 연결
+		h->first->llink = node;  // 기존 head의 llink를 node에 연결
+		n = node; // 헤드 변경
+	}
 	return 0;
 }
 
@@ -258,6 +274,15 @@ int insertFirst(headNode* h, int key) {
  */
 int deleteFirst(headNode* h) {
 
+	listNode* n = h->first;
+	
+	if (n == NULL) { // 리스트가 공백인지 검사
+		printf("List is empty!\n");
+		return 0;
+	}
+
+	h->first = n->rlink;		
+	free(n);		
 	return 0;
 }
 
