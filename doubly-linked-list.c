@@ -133,9 +133,16 @@ int initialize(headNode** h) {
 
 int freeList(headNode* h){
 	
-	listNode* n = h->first;
+	listNode* n = h->first;    //헤드 노드가 가리키는 곳= 현재 노드가 가리키는 곳
+	listNode* prev = NULL;
 	
-
+	while (n != NULL) { // list의 node들 해제
+		prev = n;    // 이전 노드를 n로 변경
+		n = n->rlink;    // 다음 노드를 가리키도록 변경
+		free(prev);      // 노드를 하나씩 해제
+	}
+	
+	free(h); 
 	return 0;
 }
 
@@ -198,7 +205,42 @@ int insertLast(headNode* h, int key) {
  */
 int deleteLast(headNode* h) {
 
-
+	listNode* node = h->first;		
+	int count=NULL:
+	
+        if (h == NULL) { 
+		printf("Node is not initialized.\n\n");  //초기화된 리스트가 없다면 에러 문구 출력
+		return 0;
+	}
+	
+	if (node == NULL) { 
+		printf("Linked list is empty!!\n\n");   //초기화된 리스트에 노드가 없으면
+		return 0;
+	}
+	
+	if (node->rlink == NULL) { // 리스트에 node가 하나만 존재하면
+		h->first = NULL; // 리스트가 공백
+		free(node);
+		return 0;
+	}
+	else {  //노드가 하나 이상 있으면
+		while (node->rlink != NULL) 
+		{     //가장 마지막 노드에 도달할때까지
+			node = node->rlink;
+			count+=1;
+		}
+		
+		if(count != 0) 
+		{
+			(node->llink)->rlink=NULL;
+		}
+		else 
+		{
+			h->first = NULL;
+		}
+		free(node);
+		return 0;
+	}
 	return 0;
 }
 
